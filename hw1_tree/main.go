@@ -37,11 +37,11 @@ func getFileSizeStr(fileInfo os.FileInfo) string {
 func processDir(out io.Writer, path string, printFiles bool, prefix string) error {
 	file, err := os.Open(path)
 	if err != nil {
-		panic("Failed to open path.")
+		return err
 	}
 	fileInfos, err := file.Readdir(0)
 	if err != nil {
-		panic("Failed to read directory.")
+		return err
 	}
 
 	if !printFiles {
@@ -69,7 +69,7 @@ func processDir(out io.Writer, path string, printFiles bool, prefix string) erro
 			fmt.Fprintf(out, "%s%s%s\n", prefix, localPrefix, fileInfo.Name())
 			err = processDir(out, filepath.Join(path, fileInfo.Name()), printFiles, prefix + prefixForSubdirs)
 			if err != nil {
-				panic("Failed to read directory.")
+				return err
 			}
 		} else {
 			if printFiles {
@@ -85,13 +85,13 @@ func processDir(out io.Writer, path string, printFiles bool, prefix string) erro
 func dirTree(out io.Writer, path string, printFiles bool) error {
 	stat, err := os.Stat(path)
 	if err != nil {
-		panic("Failed to get stat.")
+		return err
 	}
 	mode:= stat.Mode()
 	if mode.IsDir() {
 		err = processDir(out, path, printFiles, "")
 		if err != nil {
-			panic("Failed to read directory.")
+			return err
 		}
 	} else {
 		fmt.Fprintln(out, "It is file:", path)
