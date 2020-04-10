@@ -103,7 +103,7 @@ func dirTree(out io.Writer, path string, printFiles bool) error {
 func main() {
 	out := os.Stdout
 	if !(len(os.Args) == 2 || len(os.Args) == 3) {
-		panic("usage go run main.go . [-f]")
+		panic("wrong arguments.\nUsage:\n\tgo run main.go path/to/some/directory [-f]")
 	}
 	path := os.Args[1]
 	printFiles := len(os.Args) == 3 && os.Args[2] == "-f"
