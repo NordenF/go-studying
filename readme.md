@@ -1,1 +1,1 @@
-Repository with different pieces.
+Repository with different things about Go.
